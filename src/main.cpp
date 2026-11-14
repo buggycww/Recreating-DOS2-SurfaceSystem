@@ -2,27 +2,34 @@
 //
 
 #include <raylib.h>
-#include "ball.h"
 
 int main()
 {
     const Color darkGreen = { 20, 160, 133, 255 };
 
-    constexpr int screenWidth = 800;
-    constexpr int screenHeight = 600;
+    constexpr int screenWidth = 1920;
+    constexpr int screenHeight = 1080;
 
-    Ball ball;
-
-    InitWindow(screenWidth, screenHeight, "My first RAYLIB program!");
+    InitWindow(screenWidth, screenHeight, "Recreating DOS2 Surface System");
     SetTargetFPS(60);
+
+    Camera3D camera = Camera3D();
+    camera.position = Vector3(0, 5.f, 5.f);
+    camera.target = Vector3();
+    camera.up = Vector3(0, 1.f, 0);
+    camera.fovy = 45;
+    camera.projection = CAMERA_PERSPECTIVE;
 
     while (!WindowShouldClose())
     {
-        ball.Update();
-
+        float dt = GetFrameTime();
+        ClearBackground(WHITE);
         BeginDrawing();
-        ClearBackground(darkGreen);
-        ball.Draw();
+        BeginMode3D(camera);
+
+        DrawGrid(10, 1);
+
+        EndMode3D();
         EndDrawing();
     }
 

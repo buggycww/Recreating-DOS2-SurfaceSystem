@@ -46,7 +46,7 @@ endif()
 project ("Recreating-DOS2-SurfaceSystem")
 
 # Add source to this project's executable.
-add_executable (Recreating-DOS2-SurfaceSystem "src/main.cpp"  "src/ball.cpp" "src/ball.h")
+add_executable (Recreating-DOS2-SurfaceSystem "src/main.cpp" )
 
 target_include_directories(Recreating-DOS2-SurfaceSystem PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src")
 target_link_libraries(Recreating-DOS2-SurfaceSystem PRIVATE raylib)
