@@ -1,4 +1,4 @@
-﻿# CMakeList.txt : CMake project for Recreating-DOS2-SurfaceSystem, include source and define
+# CMakeList.txt : CMake project for Recreating-DOS2-SurfaceSystem, include source and define
 # project specific logic here.
 #
 cmake_minimum_required(VERSION 3.24)
@@ -37,6 +37,10 @@ if (NOT raylib_FOUND)
     FetchContent_MakeAvailable(raylib)
 endif()
 
+# Set C++ standard
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 # Enable Hot Reload for MSVC compilers if supported.
 if (POLICY CMP0141)
   cmake_policy(SET CMP0141 NEW)
@@ -46,7 +50,7 @@ endif()
 project ("Recreating-DOS2-SurfaceSystem")
 
 # Add source to this project's executable.
-add_executable (Recreating-DOS2-SurfaceSystem "src/main.cpp" )
+add_executable (Recreating-DOS2-SurfaceSystem "src/main.cpp"  "src/grid.h" "src/grid.cpp" "src/vec3.h" "src/gameObjects.h" "src/gameObjects.cpp" "src/resources.h" "src/colors.h" "src/game.h" "src/game.cpp"  "src/player.h")
 
 target_include_directories(Recreating-DOS2-SurfaceSystem PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src")
 target_link_libraries(Recreating-DOS2-SurfaceSystem PRIVATE raylib)
