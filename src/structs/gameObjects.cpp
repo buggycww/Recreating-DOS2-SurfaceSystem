@@ -1,4 +1,4 @@
-#include "gameObjects.h"
+#include "structs/gameObjects.h"
 
 #include <rlgl.h>
 
@@ -79,14 +79,14 @@ void GameObject::Move(float deltaTime)
 
 void GameObject::Draw() const
 {
+	if (!bIsVisible) return;
+
 	const Matrix objectWorld = WorldMatrix();
 
 	for (const ModelAttachment& attachment : models)
 	{
-		if (attachment.model.meshCount <= 0) continue;
-
-		// In raylib's row-vector order this is:
-		// vertex -> model transform -> attachment local -> object world.
+		if (attachment.model.meshCount <= 0 || !attachment.bIsVisible) continue;
+		
 		const Matrix attachmentWorld = MatrixMultiply(attachment.local.ToMatrix(), objectWorld);
 		const Matrix modelWorld = MatrixMultiply(attachment.model.transform, attachmentWorld);
 

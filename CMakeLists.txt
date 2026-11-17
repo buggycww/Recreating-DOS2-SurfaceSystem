@@ -37,10 +37,6 @@ if (NOT raylib_FOUND)
     FetchContent_MakeAvailable(raylib)
 endif()
 
-# Set C++ standard
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
 # Enable Hot Reload for MSVC compilers if supported.
 if (POLICY CMP0141)
   cmake_policy(SET CMP0141 NEW)
@@ -50,16 +46,15 @@ endif()
 project ("Recreating-DOS2-SurfaceSystem")
 
 # Add source to this project's executable.
-add_executable (Recreating-DOS2-SurfaceSystem "src/main.cpp"  "src/grid.h" "src/grid.cpp" "src/vec3.h" "src/gameObjects.h" "src/gameObjects.cpp" "src/resources.h" "src/colors.h" "src/game.h" "src/game.cpp"  "src/player.h")
-
-target_include_directories(Recreating-DOS2-SurfaceSystem PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src")
-target_link_libraries(Recreating-DOS2-SurfaceSystem PRIVATE raylib)
-
-# Make `Recreating-DOS2-SurfaceSystem` the startup project if the generated .sln is opened directly.
-set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT Recreating-DOS2-SurfaceSystem)
+add_executable (Recreating-DOS2-SurfaceSystem "src/main.cpp"  "src/surface/grid.h" "src/surface/grid.cpp" "src/structs/vec3.h" "src/structs/gameObjects.h" "src/structs/gameObjects.cpp" "src/structs/resources.h" "src/structs/cube.h" "src/constants/colors.h" "src/camera/freeCameraController.h" "src/camera/freeCameraController.cpp" "src/game/game.h" "src/game/game.cpp"  "src/player/player.h" "src/player/player.cpp" "src/surface/ISurfaceInteractable.h" "src/surface/groundCube.h" "src/surface/groundCube.cpp" "src/collision detection/AABB.h" "src/collision detection/CollisionWorld.cpp" "src/collision detection/CollisionWorld.h" "src/collision detection/Octree.cpp" "src/collision detection/Octree.h")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET Recreating-DOS2-SurfaceSystem PROPERTY CXX_STANDARD 20)
 endif()
 
 # TODO: Add tests and install targets if needed.
+target_include_directories(Recreating-DOS2-SurfaceSystem PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src")
+target_link_libraries(Recreating-DOS2-SurfaceSystem PRIVATE raylib)
+
+# Make `Recreating-DOS2-SurfaceSystem` the startup project if the generated .sln is opened directly.
+set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT Recreating-DOS2-SurfaceSystem)

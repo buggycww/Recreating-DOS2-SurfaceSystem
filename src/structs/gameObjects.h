@@ -5,9 +5,9 @@
 #include <raylib.h>
 #include <raymath.h>
 
-#include "colors.h"
-#include "resources.h"
-#include "vec3.h"
+#include "constants/colors.h"
+#include "structs/resources.h"
+#include "structs/vec3.h"
 
 struct Transform3D
 {
@@ -40,17 +40,27 @@ struct ModelAttachment
 	bool outline = false;
 	Color outlineColor = BLACK;
 	OutlineStyle outlineStyle = OutlineStyle::Silhouette;
+	bool bIsVisible = true;
 };
 
 class GameObject
 {
 public:
 	Transform3D transform;
+
+	// Local-space collision box, centred on colliderOffset. A zero size means
+	// "use the transform's unit cube". This keeps the visible scale free to
+	// differ from the collision size.
+	vec3::Vector3 colliderSize{ 0.f };
+	vec3::Vector3 colliderOffset{ 0.f };
+
 	GameObject* parent = nullptr;
 	std::vector<ModelAttachment> models;
 
 	vec3::Vector3 direction{ 0.f };
 	float speed = 0.f;
+
+	bool bIsVisible = true;
 
 	GameObject() = default;
 	virtual ~GameObject() = default;
@@ -81,18 +91,4 @@ public:
 
 	virtual void Update(float deltaTime) { Move(deltaTime); }
 	virtual void Draw() const;
-};
-
-struct Cube : public GameObject
-{
-	Cube(vec3::Vector3 scale, vec3::Vector3 pos, Color color, Color outlineColor, const Resources& res)
-	{
-		transform.position = pos;
-		transform.scale = scale;
-
-		ModelAttachment& body = Attach(res.cubeModel.Get(), {}, color);
-		body.outline = true;
-		body.outlineColor = outlineColor;
-		body.outlineStyle = OutlineStyle::Edges;
-	}
 };

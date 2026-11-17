@@ -1,5 +1,5 @@
 #include "grid.h"
-#include "colors.h"
+#include "constants/colors.h"
 
 Grid::Grid(vec3::Vector3 gridSize, float cellSize, float cellPadding, const Resources& res) : gridSize(gridSize), cellSize(cellSize)
 {
@@ -13,7 +13,7 @@ Grid::Grid(vec3::Vector3 gridSize, float cellSize, float cellPadding, const Reso
 			for (int height = 0; height < gridSize.y; ++height)
 			{
 				vec3::Vector3 pos = vec3::Vector3(cols * cellSize, height * cellSize, rows * cellSize) - offset;
-				Cube cube = Cube(scale, pos, albescentWhite, bouquet, res);
+				GroundCube cube = GroundCube(scale, pos, albescentWhite, bouquet, res);
 				floor.push_back(cube);
 			}
 		}
@@ -22,7 +22,7 @@ Grid::Grid(vec3::Vector3 gridSize, float cellSize, float cellPadding, const Reso
 
 void Grid::Draw()
 {
-	for (const Cube& cube : floor)
+	for (const GroundCube& cube : floor)
 	{
 		cube.Draw();
 	}
@@ -30,8 +30,21 @@ void Grid::Draw()
 
 void Grid::SetOutline(bool enabled)
 {
-	for (Cube& cube : floor)
+	for (GroundCube& cube : floor)
 	{
 		cube.SetOutline(enabled);
 	}
+}
+
+std::vector<GameObject*> Grid::GetColliders()
+{
+	std::vector<GameObject*> colliders;
+	colliders.reserve(floor.size());
+
+	for (GroundCube& cube : floor)
+	{
+		colliders.push_back(&cube);
+	}
+
+	return colliders;
 }

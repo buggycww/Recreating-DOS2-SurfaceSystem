@@ -1,9 +1,9 @@
 #pragma once
 
-#include "vec3.h"
+#include "structs/vec3.h"
 #include <vector>
-#include "gameObjects.h"
-#include "resources.h"
+#include "structs/resources.h"
+#include "groundCube.h"
 
 struct Grid
 {
@@ -13,11 +13,15 @@ public:
 	void Draw();
 	void SetOutline(bool enabled);
 
+	// Every solid piece of level geometry. With click-to-move the player only
+	// ever targets floor cells, so no boundary colliders are needed.
+	std::vector<GameObject*> GetColliders();
+
 	vec3::Vector3 GetGridSize() const { return gridSize; }
 	float GetCellSize() const { return cellSize; }
 
 private:
 	vec3::Vector3 gridSize;
 	float cellSize;
-	std::vector<Cube> floor;
+	std::vector<GroundCube> floor;
 };
